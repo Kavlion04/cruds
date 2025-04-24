@@ -712,3 +712,154 @@ input[type="file"]::-webkit-file-upload-button:hover {
         flex: 1;
     }
 }
+
+/* Add these responsive styles */
+@media screen and (max-width: 700px) {
+
+    /* Header styles */
+    .header-content {
+        padding: 16px 0;
+    }
+
+    .header-content h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .header-controls {
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .search-filter {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .search-wrapper,
+    .select-wrapper {
+        width: 100%;
+    }
+
+    .buttons {
+        display: flex;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .primary-button {
+        flex: 1;
+    }
+
+    /* Products grid */
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px 0;
+    }
+
+    .product-card {
+        max-width: 100%;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    /* Modal styles */
+    .modal-content {
+        width: 95%;
+        margin: 16px auto;
+        padding: 16px;
+        max-height: 85vh;
+    }
+
+    #modalTitle {
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group label {
+        font-size: 0.875rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+        font-size: 0.875rem;
+    }
+
+    .preview-image {
+        padding: 12px;
+    }
+
+    .preview-image img {
+        max-height: 200px;
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        padding: 12px;
+    }
+
+    /* Delete modal */
+    .delete-modal .modal-content {
+        width: 90%;
+        padding: 16px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    /* Container padding */
+    .container {
+        padding: 0 16px;
+    }
+}
+
+/* Additional improvements for very small screens */
+@media screen and (max-width: 400px) {
+    .product-info {
+        padding: 12px;
+    }
+
+    .product-name {
+        font-size: 1rem;
+    }
+
+    .product-price {
+        font-size: 1.25rem;
+    }
+
+    .product-color,
+    .product-category {
+        font-size: 0.75rem;
+    }
+
+    .delete-btn {
+        width: 32px;
+        height: 32px;
+        top: 8px;
+        right: 8px;
+    }
+
+    .icon-button {
+        width: 36px;
+        height: 36px;
+    }
+}
