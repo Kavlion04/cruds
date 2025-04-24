@@ -1,0 +1,714 @@
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --background-color: #f8fafc;
+    --text-color: #1e293b;
+    --card-background: #ffffff;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --header-background: #ffffff;
+    --modal-background: #ffffff;
+    --input-background: #ffffff;
+    --input-border: #e2e8f0;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+.dark-mode {
+    --background-color: #0f172a;
+    --text-color: #f1f5f9;
+    --card-background: #1e293b;
+    --card-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.05), 0 2px 4px -2px rgb(255 255 255 / 0.05);
+    --header-background: #1e293b;
+    --modal-background: #1e293b;
+    --input-background: #334155;
+    --input-border: #475569;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: var(--transition);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+header {
+    background-color: var(--header-background);
+    padding: 24px 0;
+    box-shadow: var(--card-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-content h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--primary-color), #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    padding: 12px 16px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    background-color: var(--input-background);
+    color: var(--text-color);
+    font-size: 0.875rem;
+    transition: var(--transition);
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    padding: 32px 0;
+}
+
+.product-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--input-border);
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.product-color,
+.product-category {
+    font-size: 0.875rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--modal-background);
+    margin: 32px auto;
+    padding: 32px;
+    width: 90%;
+    max-width: 560px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--input-border);
+}
+
+.close:hover {
+    background-color: var(--input-border);
+    transform: rotate(90deg);
+}
+
+#modalTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text-color);
+    padding-right: 40px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select {
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    padding: 12px 16px;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+.preview-image {
+    margin-top: 24px;
+    text-align: center;
+    background-color: var(--input-background);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    border: 2px dashed var(--input-border);
+    transition: var(--transition);
+}
+
+.preview-image:hover {
+    border-color: var(--primary-color);
+}
+
+.preview-image img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 32px;
+    padding: 16px;
+    font-size: 1rem;
+    justify-content: center;
+    background: linear-gradient(to right, var(--primary-color), #7c3aed);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.2);
+}
+
+.submit-btn i {
+    font-size: 1.125rem;
+}
+
+/* File input styling */
+.file-input-wrapper {
+    position: relative;
+    margin-top: 8px;
+}
+
+input[type="file"] {
+    padding: 12px;
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background: linear-gradient(to right, var(--primary-color), #7c3aed);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    margin-right: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background: linear-gradient(to right, var(--primary-hover), #6d28d9);
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 16px;
+        padding: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    #modalTitle {
+        font-size: 1.25rem;
+        margin-bottom: 24px;
+    }
+
+    .preview-image {
+        padding: 16px;
+    }
+
+    .submit-btn {
+        margin-top: 24px;
+        padding: 14px;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--input-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Add these new styles after the existing ones */
+
+.search-wrapper,
+.select-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-wrapper i,
+.select-wrapper i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    z-index: 1;
+}
+
+.search-wrapper input,
+.select-wrapper select {
+    padding-left: 44px;
+    width: 100%;
+}
+
+.icon-button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--input-background);
+    color: var(--text-color);
+}
+
+.icon-button:hover {
+    background-color: var(--input-border);
+    transform: translateY(-1px);
+}
+
+.primary-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+}
+
+.primary-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: var(--primary-color);
+    width: 16px;
+}
+
+input[type="file"] {
+    padding: 12px;
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    width: 100%;
+    cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    margin-right: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.product-card {
+    cursor: pointer;
+    position: relative;
+}
+
+.product-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+    transition: var(--transition);
+}
+
+.product-card:hover::after {
+    border-color: var(--primary-color);
+}
+
+.product-color i,
+.product-category i {
+    color: var(--primary-color);
+}
+
+/* Add these styles for the preview placeholder */
+.preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px;
+    color: var(--input-border);
+}
+
+.preview-placeholder i {
+    font-size: 48px;
+}
+
+.preview-placeholder p {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.preview-image img:not([style*="display: none"])+.preview-placeholder {
+    display: none;
+}
+
+/* Update form styles */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+    color: #94a3b8;
+}
+
+.form-group select option[disabled] {
+    color: #94a3b8;
+}
+
+.form-group select option {
+    color: var(--text-color);
+    background-color: var(--modal-background);
+}
+
+/* Modal overlay animation */
+.modal::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.85) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active::before {
+    opacity: 1;
+}
+
+/* Improve modal content positioning */
+.modal-content {
+    position: relative;
+    z-index: 1;
+    margin: 5vh auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--input-border) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: var(--input-border);
+    border-radius: 3px;
+}
+
+/* Improve form group spacing on focus */
+.form-group:focus-within {
+    transform: translateY(-1px);
+}
+
+.form-group:focus-within label {
+    color: var(--primary-color);
+}
+
+/* Add transition for form inputs */
+.form-group input,
+.form-group select {
+    transition: all 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: var(--primary-color);
+}
+
+/* Add delete button styles */
+.product-card {
+    position: relative;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(239, 68, 68, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+    padding: 0;
+    z-index: 2;
+}
+
+.product-card:hover .delete-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.delete-btn:hover {
+    background-color: rgb(239, 68, 68);
+    transform: scale(1.1);
+}
+
+/* Delete confirmation modal */
+.delete-modal .modal-content {
+    max-width: 400px;
+}
+
+.delete-modal .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.delete-modal .modal-actions button {
+    flex: 1;
+}
+
+.cancel-btn {
+    background-color: #64748b;
+}
+
+.cancel-btn:hover {
+    background-color: #475569;
+}
+
+.confirm-delete-btn {
+    background-color: #ef4444;
+}
+
+.confirm-delete-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .header-content {
+        flex-wrap: wrap;
+    }
+
+    .header-controls {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .search-filter {
+        flex: 1;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 640px) {
+    .search-filter {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-wrapper,
+    .select-wrapper {
+        width: 100%;
+    }
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        gap: 12px;
+    }
+
+    .primary-button {
+        flex: 1;
+    }
+}
