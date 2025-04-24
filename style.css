@@ -54,6 +54,11 @@ header {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .header-content {
     display: flex;
